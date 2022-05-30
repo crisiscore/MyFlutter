@@ -35,24 +35,16 @@ class RemoteExpensesBloc
       await _onAddNewExpense(event, emit);
     });
     on<DeleteExpense>((event, emit) async {
-     await _onDeleteExpense(event, emit);
+      await _onDeleteExpense(event, emit);
     });
   }
 
   Future<void> _onGetExpenses(
       GetExpenses event, Emitter<RemoteExpensesState> emit) async {
     final dataState = await _getExpensesUseCase();
-    List<Expense> expenses;
-    if (dataState.data != null) {
-      expenses = dataState.data!;
-    } else {
-      expenses = [];
-    }
 
-    if (dataState is DataSuccess) {
-      _expenses.clear();
-      _expenses.addAll(expenses);
-      emit(RemoteExpensesDone(_expenses));
+    if (dataState is DataSuccess && dataState.data != null) {
+      emit(RemoteExpensesDone(dataState.data!));
     }
     if (dataState is DataFailed) {
       emit(RemoteExpensesError(dataState.error!));
@@ -63,14 +55,9 @@ class RemoteExpensesBloc
       AddNewExpense event, Emitter<RemoteExpensesState> emit) async {
     if (event.params.id != null) {
       final dataState = await _updateExpenseUseCase(params: event.params);
-      String expenses = '';
-      if (dataState.data != null) {
-        expenses = dataState.data!;
-      } else {
-        expenses = '';
-      }
+      _expense = null;
       if (dataState is DataSuccess) {
-        emit(const AddExpenseDone(null));
+        emit(AddExpenseDone(_expense));
       } else if (dataState is DataFailed && dataState.error != null) {
         emit(AddExpenseError(dataState.error!));
       }

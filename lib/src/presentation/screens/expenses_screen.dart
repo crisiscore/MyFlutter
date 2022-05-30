@@ -18,7 +18,8 @@ class ExpensesScreen extends StatefulWidget {
 class _ExpensesScreenState extends State<ExpensesScreen> {
   @override
   Widget build(BuildContext context) {
-    context.read<RemoteExpensesBloc>().add(const GetExpenses());
+   // context.read<RemoteExpensesBloc>().add(const GetExpenses());
+    BlocProvider.of<RemoteExpensesBloc>(context).add(const GetExpenses());
     return Scaffold(
       backgroundColor: const Color(0xffF6F6F6),
       body: _buildBlocState(),
@@ -36,6 +37,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   Widget _buildBlocState() {
     return BlocListener<RemoteExpensesBloc, RemoteExpensesState>(
       listener: (context, state) {
+        print('${state} Bloc State');
         setState(() {});
       },
       child: BlocBuilder<RemoteExpensesBloc, RemoteExpensesState>(
@@ -90,29 +92,21 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   void _onExpensePressed(Expense expense) {
     Navigator.of(context)
-        .push(MaterialPageRoute(
-          builder: (context) => BlocProvider<RemoteExpensesBloc>.value(
-            value: injector(),
-            child: AddExpenseScreen(expense: expense),
-          ),
-        ))
-        .then((value) =>
-            {context.read<RemoteExpensesBloc>().add(const GetExpenses())});
+        .pushNamed('/addNewExpense' , arguments: expense)
+        .then((value)
+            {
+              BlocProvider.of<RemoteExpensesBloc>(context).add(const GetExpenses());
+            });
   }
 
   void _onRemove(Expense expense) {
-    context.read<RemoteExpensesBloc>().add(DeleteExpense(expense.id!));
+    BlocProvider.of<RemoteExpensesBloc>(context).add(DeleteExpense(expense.id!));
   }
 
   void _addNewExpense() {
     Navigator.of(context)
-        .push(MaterialPageRoute(
-          builder: (context) => BlocProvider<RemoteExpensesBloc>.value(
-            value: injector(),
-            child: const AddExpenseScreen(expense: null),
-          ),
-        ))
-        .then((value) =>
-            {context.read<RemoteExpensesBloc>().add(const GetExpenses())});
+        .pushNamed('/addNewExpense' , arguments: null)
+        .then((value)
+            {BlocProvider.of<RemoteExpensesBloc>(context).add(const GetExpenses());});
   }
 }

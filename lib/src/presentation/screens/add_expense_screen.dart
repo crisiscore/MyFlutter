@@ -138,7 +138,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     if (amount.isNotEmpty && description.isNotEmpty) {
       AddExpenseParams params = AddExpenseParams(
           id: id, amount: int.parse(amount), description: description);
-      context.read<RemoteExpensesBloc>().add(AddNewExpense(params));
+      BlocProvider.of<RemoteExpensesBloc>(context).add(AddNewExpense(params));
     }
   }
 }

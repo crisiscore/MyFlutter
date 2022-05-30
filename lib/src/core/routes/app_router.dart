@@ -4,17 +4,18 @@ import 'package:my_flutter/src/domain/entities/expense.dart';
 import 'package:my_flutter/src/injector.dart';
 import 'package:my_flutter/src/presentation/blocs/remote_expenses/remote_expenses_bloc.dart';
 import 'package:my_flutter/src/presentation/screens/add_expense_screen.dart';
+import 'package:my_flutter/src/presentation/screens/bottom_navigation.dart';
 import 'package:my_flutter/src/presentation/screens/expenses_screen.dart';
 
-class AppRoutes {
+class AppRouter {
 
-  static final RemoteExpensesBloc _remoteExpensesBloc = injector();
+  final RemoteExpensesBloc _remoteExpensesBloc = injector();
 
-  static Route<dynamic>? generateRoute(RouteSettings settings) {
+  Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return _materialRoute(const ExpensesScreen());
-      case '/AddNewExpense':
+        return _materialRoute(const BottomNavigation());
+      case '/addNewExpense':
         Expense? expense;
         if (settings.arguments != null) {
           expense = settings.arguments as Expense;
@@ -27,7 +28,11 @@ class AppRoutes {
     }
   }
 
-  static Route<dynamic> _materialRoute(Widget view) {
-    return MaterialPageRoute(builder: (_) => BlocProvider.value(value: _remoteExpensesBloc , child: view,));
+   Route<dynamic> _materialRoute(Widget view) {
+    return MaterialPageRoute(builder: (context) => BlocProvider.value(value: _remoteExpensesBloc , child: view,));
+  }
+
+  void dispose() {
+    _remoteExpensesBloc.close();
   }
 }

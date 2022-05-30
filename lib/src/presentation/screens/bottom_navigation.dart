@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter/src/core/routes/app_routes.dart';
+import 'package:my_flutter/src/core/routes/app_router.dart';
 import 'package:my_flutter/src/presentation/screens/expenses_screen.dart';
 import 'package:my_flutter/src/presentation/screens/map_screen.dart';
 import 'package:my_flutter/src/presentation/screens/website_screen.dart';
