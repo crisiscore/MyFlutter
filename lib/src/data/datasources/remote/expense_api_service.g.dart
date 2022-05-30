@@ -53,18 +53,19 @@ class _ExpenseAPIService implements ExpenseAPIService {
   }
 
   @override
-  Future<HttpResponse<dynamic>> updateExpense(id, params) async {
+  Future<HttpResponse<String>> updateExpense(id, params) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(params.toJson());
-    final _result = await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(
-        Options(method: 'PUT', headers: _headers, extra: _extra)
-            .compose(_dio.options, 'expenses/${id}',
-                queryParameters: queryParameters, data: _data)
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data;
+    final _result = await _dio.fetch<String>(
+        _setStreamType<HttpResponse<String>>(
+            Options(method: 'PUT', headers: _headers, extra: _extra)
+                .compose(_dio.options, 'expenses/${id}',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data!;
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

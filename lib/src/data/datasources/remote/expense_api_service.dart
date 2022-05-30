@@ -19,7 +19,7 @@ abstract class ExpenseAPIService{
   Future<HttpResponse<ExpenseModel>> addExpense(@Body() AddExpenseParams params);
 
   @PUT("expenses/{id}")
-  Future<HttpResponse<dynamic>> updateExpense(@Path() String id , @Body() AddExpenseParams params);
+  Future<HttpResponse<String>> updateExpense(@Path() String id , @Body() AddExpenseParams params);
 
   @DELETE("expenses/{id}")
   Future<HttpResponse<List<ExpenseModel>>> deleteExpense(@Path() String id);

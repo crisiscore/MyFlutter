@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_flutter/src/core/params/add_expense_params.dart';
-import 'package:my_flutter/src/injector.dart';
-import 'package:my_flutter/src/presentation/blocs/add_expense/add_expense_bloc.dart';
+import 'package:my_flutter/src/presentation/blocs/remote_expenses/remote_expenses_bloc.dart';
 
 import '../../domain/entities/expense.dart';
 
@@ -42,7 +41,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   }
 
   Widget _buildBlocState() {
-    return BlocListener<AddExpenseBloc, AddExpenseState>(
+    return BlocListener<RemoteExpensesBloc, RemoteExpensesState>(
       listener: (context , state){
         if (state is AddExpenseDone) {
           _onSuccess();
@@ -139,7 +138,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     if (amount.isNotEmpty && description.isNotEmpty) {
       AddExpenseParams params = AddExpenseParams(
           id: id, amount: int.parse(amount), description: description);
-      BlocProvider.of<AddExpenseBloc>(context).add(AddNewExpense(params));
+      context.read<RemoteExpensesBloc>().add(AddNewExpense(params));
     }
   }
 }

@@ -61,13 +61,13 @@ class ExpenseRepositoryImpl implements ExpensesRepository {
     try {
       final response = await _expenseAPIService.updateExpense(id , params);
       if(response.response.statusCode == 200) {
-        return const DataSuccess('Success!');
+        return const DataSuccess("Success!");
       }else {
-        return const DataFailed('Failed');
+        return const DataFailed("Failed!");
       }
 
     }on Dio catch(e){
-      return const DataFailed('Failed');
+      return const DataFailed("Failed");
     }
   }
 

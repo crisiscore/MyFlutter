@@ -1,14 +1,10 @@
 part of 'remote_expenses_bloc.dart';
 
 abstract class RemoteExpensesState extends Equatable {
-  final List<Expense> ? expenses;
-  final bool ? noMoreData;
-  final DioError ? error;
-
-  const RemoteExpensesState({ this.expenses, this.noMoreData, this.error});
+  const RemoteExpensesState();
 
   @override
-  List<Object?> get props => [expenses, noMoreData, error];
+  List<Object?> get props => [];
 }
 
 class RemoteExpensesLoading extends RemoteExpensesState {
@@ -16,10 +12,63 @@ class RemoteExpensesLoading extends RemoteExpensesState {
 }
 
 class RemoteExpensesDone extends RemoteExpensesState {
-  const RemoteExpensesDone(List<Expense> expenses, {bool ? noMoreData} )
-      : super(expenses: expenses, noMoreData: noMoreData);
+  final List<Expense>? expenses;
+
+  const RemoteExpensesDone(this.expenses);
+
+  @override
+  List<Object?> get props => [expenses];
 }
 
 class RemoteExpensesError extends RemoteExpensesState {
-  const RemoteExpensesError(DioError ? error) : super(error: error);
+  final DioError? error;
+
+  const RemoteExpensesError(this.error);
 }
+
+class AddExpenseLoading extends RemoteExpensesState {
+  const AddExpenseLoading();
+}
+
+class AddExpenseDone extends RemoteExpensesState {
+  final Expense? expenses;
+
+  const AddExpenseDone(this.expenses);
+
+  @override
+  List<Object?> get props => [expenses];
+}
+
+class AddExpenseError extends RemoteExpensesState {
+  final DioError ? error;
+
+  const AddExpenseError(this.error);
+
+  @override
+  List<Object?> get props => [error];
+
+}
+
+class DeleteExpenseLoading extends RemoteExpensesState {
+  const DeleteExpenseLoading();
+}
+
+class DeleteExpenseDone extends RemoteExpensesState {
+
+  final List<Expense>? expenses;
+
+  const DeleteExpenseDone(this.expenses);
+
+  @override
+  List<Object?> get props => [expenses];
+}
+
+class DeleteExpenseError extends RemoteExpensesState {
+  final DioError ? error;
+
+  const DeleteExpenseError(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}
+

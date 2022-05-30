@@ -5,8 +5,6 @@ import 'package:my_flutter/src/data/repositories/expense_repository_impl.dart';
 import 'package:my_flutter/src/domain/usecases/add_expense_usecase.dart';
 import 'package:my_flutter/src/domain/usecases/get_expenses_usecase.dart';
 import 'package:my_flutter/src/domain/usecases/update_expense_usecase.dart';
-import 'package:my_flutter/src/presentation/blocs/add_expense/add_expense_bloc.dart';
-import 'package:my_flutter/src/presentation/blocs/delete_expense/delete_expense_bloc.dart';
 import 'package:my_flutter/src/presentation/blocs/remote_expenses/remote_expenses_bloc.dart';
 
 import 'domain/repositories/expenses_repository.dart';
@@ -30,20 +28,14 @@ Future<void> initializeDependencies() async {
   injector
       .registerSingleton<GetExpensesUseCase>(GetExpensesUseCase(injector()));
   injector.registerSingleton<AddExpenseUseCase>(AddExpenseUseCase(injector()));
-  injector.registerSingleton<UpdateExpenseUseCase>(UpdateExpenseUseCase(injector()));
+  injector.registerSingleton<UpdateExpenseUseCase>(
+      UpdateExpenseUseCase(injector()));
   injector.registerSingleton<DeleteExpenseUseCase>(
       DeleteExpenseUseCase(injector()));
 
   // Blocs
   injector.registerFactory<RemoteExpensesBloc>(
-    () => RemoteExpensesBloc(injector()),
+    () => RemoteExpensesBloc(injector(), injector(), injector(), injector()),
   );
 
-  injector.registerFactory<AddExpenseBloc>(
-    () => AddExpenseBloc(injector(), injector()),
-  );
-
-  injector.registerFactory<DeleteExpenseBloc>(
-        () => DeleteExpenseBloc(injector()),
-  );
 }
