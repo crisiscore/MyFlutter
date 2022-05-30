@@ -7,7 +7,7 @@ abstract class DeleteExpenseEvent extends Equatable {
   const DeleteExpenseEvent(this.id);
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class DeleteExpense extends DeleteExpenseEvent {

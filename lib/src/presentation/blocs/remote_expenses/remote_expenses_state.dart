@@ -8,7 +8,7 @@ abstract class RemoteExpensesState extends Equatable {
   const RemoteExpensesState({ this.expenses, this.noMoreData, this.error});
 
   @override
-  List<Object> get props => [expenses!, noMoreData!, error!];
+  List<Object?> get props => [expenses, noMoreData, error];
 }
 
 class RemoteExpensesLoading extends RemoteExpensesState {
@@ -16,10 +16,10 @@ class RemoteExpensesLoading extends RemoteExpensesState {
 }
 
 class RemoteExpensesDone extends RemoteExpensesState {
-  const RemoteExpensesDone(List<Expense> expenses, {bool ? noMoreData})
+  const RemoteExpensesDone(List<Expense> expenses, {bool ? noMoreData} )
       : super(expenses: expenses, noMoreData: noMoreData);
 }
 
 class RemoteExpensesError extends RemoteExpensesState {
-  const RemoteExpensesError(DioError error) : super(error: error);
+  const RemoteExpensesError(DioError ? error) : super(error: error);
 }

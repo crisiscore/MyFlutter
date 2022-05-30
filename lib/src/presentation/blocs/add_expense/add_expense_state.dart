@@ -7,7 +7,7 @@ abstract class AddExpenseState extends Equatable {
   const AddExpenseState({ this.expense, this.error});
 
   @override
-  List<Object> get props => [expense!, error!];
+  List<Object?> get props => [expense!, error!];
 }
 
 class AddExpenseLoading extends AddExpenseState {

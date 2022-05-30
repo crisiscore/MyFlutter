@@ -24,11 +24,12 @@ class RemoteExpensesBloc
       } else {
         expenses = [];
       }
+      bool noMoreData = true;
 
-      if (dataState is DataSuccess && expenses.isNotEmpty) {
-        const noMoreData = true;
+      if (dataState is DataSuccess) {
+        _expenses.clear();
         _expenses.addAll(expenses);
-        emit(RemoteExpensesDone(_expenses, noMoreData: noMoreData));
+        emit(RemoteExpensesDone( _expenses, noMoreData: noMoreData));
       }
       if (dataState is DataFailed) {
         emit(RemoteExpensesError(dataState.error!));

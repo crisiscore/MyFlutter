@@ -13,7 +13,6 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
 
-  final AppRoutes _router = AppRoutes();
 
   int _selectedIndex = 0;
 
@@ -66,12 +65,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _router.dispose(); // <-- trigger dispose when the user closes the app
-    super.dispose();
   }
 
 }

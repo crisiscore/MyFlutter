@@ -5,7 +5,6 @@ import 'package:my_flutter/src/domain/entities/expense.dart';
 import 'package:my_flutter/src/presentation/blocs/delete_expense/delete_expense_bloc.dart';
 import 'package:my_flutter/src/presentation/widgets/expense_widget.dart';
 
-import '../../injector.dart';
 import '../blocs/remote_expenses/remote_expenses_bloc.dart';
 
 class ExpensesScreen extends StatefulWidget {
@@ -16,32 +15,29 @@ class ExpensesScreen extends StatefulWidget {
 }
 
 class _ExpensesScreenState extends State<ExpensesScreen> {
+
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<RemoteExpensesBloc>(
-          create: (_) => injector()..add(const GetExpenses()),
-        ),
-        BlocProvider<DeleteExpenseBloc>(create: (_) => injector())
-      ],
-      child: Scaffold(
-        backgroundColor: const Color(0xffF6F6F6),
-        body: _buildBody(),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.orange,
-          onPressed: _addNewExpense,
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
+    context.read<RemoteExpensesBloc>().add(const GetExpenses());
+    return Scaffold(
+      backgroundColor: const Color(0xffF6F6F6),
+      body: _buildBlocState(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.orange,
+        onPressed: _addNewExpense,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
         ),
       ),
     );
   }
 
-  Widget _buildBody() {
-    return BlocBuilder<RemoteExpensesBloc, RemoteExpensesState>(
+  Widget _buildBlocState() {
+    return BlocListener<RemoteExpensesBloc, RemoteExpensesState>(
+        listener: (context, state) {
+      print(state);
+    }, child: BlocBuilder<RemoteExpensesBloc, RemoteExpensesState>(
       builder: (context, state) {
         if (state is RemoteExpensesLoading) {
           return const Center(child: CupertinoActivityIndicator());
@@ -62,7 +58,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         }
         return const SizedBox();
       },
-    );
+    ));
   }
 
   Widget _buildExpenses(
@@ -83,7 +79,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
             ),
           ),
         ),
-        if (noMoreData ?? true) ...[
+        if (noMoreData) ...[
           const SizedBox(),
         ] else ...[
           const Padding(
@@ -96,14 +92,22 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   }
 
   void _onExpensePressed(BuildContext context, Expense expense) {
-    Navigator.pushNamed(context, '/AddNewExpense', arguments: expense);
+    Navigator.of(context)
+        .pushNamed('/AddNewExpense', arguments: expense)
+        .then((value) {
+      context.read<RemoteExpensesBloc>().add(const GetExpenses());
+    });
   }
 
   void _onRemove(BuildContext context, Expense expense) {
-    BlocProvider.of<DeleteExpenseBloc>(context).add(DeleteExpense(expense.id!));
+    context.read<DeleteExpenseBloc>().add(DeleteExpense(expense.id!));
   }
 
   void _addNewExpense() {
-    Navigator.pushNamed(context, '/AddNewExpense', arguments: null);
+    Navigator.of(context)
+        .pushNamed('/AddNewExpense', arguments: null)
+        .then((value) {
+      context.read<RemoteExpensesBloc>().add(const GetExpenses());
+    });
   }
 }
