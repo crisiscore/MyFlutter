@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_flutter/src/domain/entities/expense.dart';
-import 'package:my_flutter/src/injector.dart';
-import 'package:my_flutter/src/presentation/screens/add_expense_screen.dart';
 import 'package:my_flutter/src/presentation/widgets/expense_widget.dart';
 
 import '../blocs/remote_expenses/remote_expenses_bloc.dart';
@@ -37,7 +35,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   Widget _buildBlocState() {
     return BlocListener<RemoteExpensesBloc, RemoteExpensesState>(
       listener: (context, state) {
-        print('${state} Bloc State');
         setState(() {});
       },
       child: BlocBuilder<RemoteExpensesBloc, RemoteExpensesState>(

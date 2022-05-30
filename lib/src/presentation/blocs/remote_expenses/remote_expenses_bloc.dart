@@ -12,7 +12,6 @@ import '../../../domain/usecases/add_expense_usecase.dart';
 import '../../../domain/usecases/update_expense_usecase.dart';
 
 part 'remote_expenses_event.dart';
-
 part 'remote_expenses_state.dart';
 
 class RemoteExpensesBloc
@@ -55,7 +54,8 @@ class RemoteExpensesBloc
       AddNewExpense event, Emitter<RemoteExpensesState> emit) async {
     if (event.params.id != null) {
       final dataState = await _updateExpenseUseCase(params: event.params);
-      _expense = null;
+      var now = DateTime.now();
+      _expense = Expense(amount: now.millisecond, description: now.toString());
       if (dataState is DataSuccess) {
         emit(AddExpenseDone(_expense));
       } else if (dataState is DataFailed && dataState.error != null) {

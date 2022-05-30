@@ -5,7 +5,6 @@ import 'package:my_flutter/src/injector.dart';
 import 'package:my_flutter/src/presentation/blocs/remote_expenses/remote_expenses_bloc.dart';
 import 'package:my_flutter/src/presentation/screens/add_expense_screen.dart';
 import 'package:my_flutter/src/presentation/screens/bottom_navigation.dart';
-import 'package:my_flutter/src/presentation/screens/expenses_screen.dart';
 
 class AppRouter {
 
